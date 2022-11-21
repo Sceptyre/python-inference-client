@@ -1,4 +1,4 @@
-name: Ansible Collection
+name: Create Release
 
 on:
   pull_request:
