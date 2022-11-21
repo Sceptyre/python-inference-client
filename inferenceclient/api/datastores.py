@@ -18,6 +18,15 @@ class DatastoresAPI(BaseAPI):
 
         return r
 
+    def add_row(self, datastore_id: str, data: dict) -> None:
+        self.ic._query(
+            path='https://usstudio.inferencecommunications.com/studio_instance/studio-api/v1/datastore/add-row',
+            params={
+                'datastore_id': datastore_id,
+                'data': data
+            }
+        )
+
     def get_row(self, datastore_id: str, row_id: str) -> dict:
         r = self.ic._query(
             path='https://usstudio.inferencecommunications.com/studio_instance/studio-api/v1/datastore/list-one-row',
