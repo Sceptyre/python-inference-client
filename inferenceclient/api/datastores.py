@@ -48,6 +48,17 @@ class DatastoresAPI(BaseAPI):
 
         return r
     
+    def search_rows(self, datastore_id: str, filters: list) -> dict:
+        r = self.ic._query(
+            path='https://usstudio.inferencecommunications.com/studio_instance/studio-api/v1/datastore/search',
+            params={
+                'datastore_id': datastore_id,
+                'filter': filters
+            }
+        )
+
+        return r
+
     def update_row(self, datastore_id: str, data_id: str, data: dict):
         r = self.ic._query(
             path='https://usstudio.inferencecommunications.com/studio_instance/studio-api/v1/datastore/update-row',
