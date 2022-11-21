@@ -17,7 +17,7 @@ client.datastores.get_datastore(
 )
 ```
 Response
-```js
+```py
 [
     {
         'id': '123',
@@ -34,7 +34,7 @@ client.datastores.get_row(
 )
 ```
 Response
-```js
+```py
 [
     {
         'id': '1',
