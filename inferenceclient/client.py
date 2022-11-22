@@ -1,65 +1,39 @@
-import hashlib
-from requests.sessions import session
+from requests.sessions import session, Session
 from . import api
 
 class InferenceClient(object):
-    _username = None
-    _password = None
-    _apikey = None
-    _token = None
-    session = None
+    _apikey: str
+    session: Session = session()
+    base_url: str
 
-    def _digest_response(self) -> str:
-        # Generate md5 response
-        ha1 = hashlib.md5(
-            bytes(f'{self._username}:Please enter your email and secret_key.:{self._password}', 'ascii')
-        )
-        ha2 = hashlib.md5(
-            b'POST:/studio_instance/studio-api/v1/auth/get-token/'
-        )
-        response = hashlib.md5(
-            bytes(ha1.hexdigest() + ":12345:1:12345:auth:" + ha2.hexdigest(), 'ascii')
-        )
-
-        # Return formatted auth header
-        return f'''Digest username="{self._username}", realm="Please enter your email and secret_key.", nonce="12345", uri="/studio_instance/studio-api/v1/auth/get-token/", algorithm="MD5", qop=auth, nc=1, cnonce="12345", response="{response.hexdigest()}"'''
-
-    def _get_token(self) -> str:
-        r = self.session.post(
-            'https://usstudio.inferencecommunications.com/studio_instance/studio-api/v1/auth/get-token/',
-            data={
-                'apikey':self._apikey
-            }
-        )
-        r.raise_for_status()
-
-        return r.json()['result']['token']
+    datastores: api.DatastoresAPI
 
     def _query(self, path: str, params: dict = {}) -> dict:
         r = self.session.post(
             url=path,
             data={
                 'token': self._token,
+                'format': 'json',
                 **params
             }
         )
+        print(r.text)
         r.raise_for_status()
 
         return r.json()['result']
 
-    def __init__(self, username: str, secret: str, apikey: str, verify_ssl=True) -> None:
+
+
+    def __init__(self, apikey: str, account_id: str, region: str = 'us', scope: str = 'ac', verify_ssl=True) -> None:
         # Store params
-        self._username = username
-        self._password = secret
         self._apikey = apikey
+        self.base_url = f'https://api.{region.lower()}7.studioportal.io/api'
 
         # Build session
-        self.session = session()
         self.session.verify = verify_ssl
-        self.session.headers["Authorization"] = self._digest_response()
-        
-        # Get token
-        self._token = self._get_token()
+        self.session.headers['studio-api-key'] = self._apikey
+        self.session.headers['scope'] = scope
+        self.session.headers['scope-id'] = account_id
 
         # Map methods
         self.datastores = api.DatastoresAPI(self)
