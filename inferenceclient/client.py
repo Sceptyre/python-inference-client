@@ -8,22 +8,6 @@ class InferenceClient(object):
 
     datastores: api.DatastoresAPI
 
-    def _query(self, path: str, params: dict = {}) -> dict:
-        r = self.session.post(
-            url=path,
-            data={
-                'token': self._token,
-                'format': 'json',
-                **params
-            }
-        )
-        print(r.text)
-        r.raise_for_status()
-
-        return r.json()['result']
-
-
-
     def __init__(self, apikey: str, account_id: str, region: str = 'us', scope: str = 'ac', verify_ssl=True) -> None:
         # Store params
         self._apikey = apikey
