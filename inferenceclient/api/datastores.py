@@ -99,7 +99,7 @@ class DatastoresAPI(BaseAPI):
                     {
                         "_id": data_id,
                         "_uuid": "",
-                        "_timestamp": 1234,
+                        "_timestamp": "",
                         **data
                     }
                 ]
