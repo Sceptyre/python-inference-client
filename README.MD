@@ -1,5 +1,5 @@
 # Install
-`pip install git+https://github.com/Sceptyre/python-inference-client.git@v0.0.1`
+`pip install git+https://github.com/Sceptyre/python-inference-client.git@v0.0.5`
 
 # Usage
 ### Connect
