@@ -1,6 +1,7 @@
 from .base import BaseAPI
 
 class DatastoresAPI(BaseAPI):
+    ## DATASTORE OPERATIONS
     def get_datastore(self, datastore_id: str) -> dict:
         r = self.ic.session.get(
             self.ic.base_url + "/data/data-store/" + datastore_id
@@ -19,6 +20,7 @@ class DatastoresAPI(BaseAPI):
 
         return r.json()['data']
 
+    ## DATASTOREDATA OPERATIONS
     def add_row(self, datastore_id: str, data: dict) -> dict:
         r = self.ic.session.post(
             self.ic.base_url + "/data/data-store-collection",
