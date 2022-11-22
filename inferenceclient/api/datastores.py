@@ -53,7 +53,7 @@ class DatastoresAPI(BaseAPI):
             path='https://usstudio.inferencecommunications.com/studio_instance/studio-api/v1/datastore/search',
             params={
                 'datastore_id': datastore_id,
-                'filter': filters
+                'filters': filters
             }
         )
 
